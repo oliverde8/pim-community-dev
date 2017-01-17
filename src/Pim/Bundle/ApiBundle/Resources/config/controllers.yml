@@ -5,6 +5,7 @@ parameters:
     pim_api.controller.rest.attribute_option.class: Pim\Bundle\ApiBundle\Controller\Rest\AttributeOptionController
     pim_api.controller.token.class: Pim\Bundle\ApiBundle\Controller\TokenController
     pim_api.controller.product.class: Pim\Bundle\ApiBundle\Controller\ProductController
+    pim_api.controller.endpoint.class: Pim\Bundle\ApiBundle\Controller\EndpointController
 
 services:
     pim_api.controller.rest.category:
@@ -75,3 +76,8 @@ services:
             - '@pim_api.pagination.paginator'
             - '@pim_api.pagination.parameter_validator'
             - '@pim_catalog.remover.product'
+
+    pim_api.controller.endpoint:
+        class: '%pim_api.controller.endpoint.class%'
+        arguments:
+            - '@router'
