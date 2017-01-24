@@ -42,6 +42,11 @@ class ListCategoryIntegration extends TestCase
                 'code'   => 'categoryB',
                 'parent' => 'master',
                 'labels' => []
+            ],
+            [
+                'code'   => 'master_china',
+                'parent' => null,
+                'labels' => []
             ]
         ];
 
