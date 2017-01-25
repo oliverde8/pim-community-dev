@@ -72,4 +72,11 @@ interface ProductQueryBuilderInterface
      * @return CursorInterface
      */
     public function execute();
+
+    /**
+     * Get count of elements
+     *
+     * @return int
+     */
+    public function count();
 }
