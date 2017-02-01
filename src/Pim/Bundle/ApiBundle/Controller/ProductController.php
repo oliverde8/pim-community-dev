@@ -143,6 +143,26 @@ class ProductController
     }
 
     /**
+     * @param Request $request
+     * @param string  $code
+     *
+     * @throws NotFoundHttpException
+     *
+     * @return JsonResponse
+     */
+    public function getAction(Request $request, $code)
+    {
+        $product = $this->productRepository->findOneByIdentifier($code);
+        if (null === $product) {
+            throw new NotFoundHttpException(sprintf('Product "%s" does not exist.', $code));
+        }
+
+        $productStandard = $this->normalizer->normalize($product, 'external_api');
+
+        return new JsonResponse($productStandard);
+    }
+
+    /**
      * Set the PQB filters.
      * If a channel is requested, add a filter to return only products linked to its category tree
      *
