@@ -3,6 +3,7 @@
 namespace Pim\Component\Catalog\Query;
 
 use Akeneo\Component\StorageUtils\Cursor\CursorFactoryInterface;
+use Akeneo\Component\StorageUtils\Exception\InvalidPropertyException;
 use Pim\Component\Catalog\Model\AttributeInterface;
 use Pim\Component\Catalog\Query\Filter\AttributeFilterInterface;
 use Pim\Component\Catalog\Query\Filter\FieldFilterHelper;
@@ -122,8 +123,12 @@ class ProductQueryBuilder implements ProductQueryBuilderInterface
         }
 
         if (null === $filter) {
-            throw new \LogicException(
-                sprintf('Filter on property "%s" is not supported or does not support operator "%s"', $field, $operator)
+            throw new InvalidPropertyException(
+                $field,
+                $operator,
+                static::class,
+                sprintf('Filter on property "%s" is not supported or does not support operator "%s"', $field, $operator),
+                InvalidPropertyException::EXPECTED_CODE
             );
         }
 
