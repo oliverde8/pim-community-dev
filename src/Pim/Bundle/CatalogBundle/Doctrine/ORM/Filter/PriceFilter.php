@@ -53,6 +53,12 @@ class PriceFilter extends AbstractAttributeFilter implements AttributeFilterInte
         $this->checkLocaleAndScope($attribute, $locale, $scope, 'price');
 
         if (Operators::IS_EMPTY === $operator || Operators::IS_NOT_EMPTY === $operator) {
+            if (!array_key_exists('amount', $value)) {
+                $value['amount'] = '';
+            }
+            if (!array_key_exists('currency', $value)) {
+                $value['currency'] = '';
+            }
             $this->addEmptyTypeFilter($attribute, $value, $operator, $locale, $scope);
         } else {
             $this->checkValue($attribute, $value);
