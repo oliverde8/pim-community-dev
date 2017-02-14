@@ -376,6 +376,55 @@ JSON;
         $this->assertSame($attributeStandard, $normalizer->normalize($attribute));
     }
 
+    public function testAttributePartialUpdateWithImmutableField()
+    {
+        $client = $this->createAuthenticatedClient();
+
+        $data =
+<<<JSON
+    {
+        "metric_family": null
+    }
+JSON;
+
+        $client->request('PATCH', 'api/rest/v1/attributes/a_text', [], [], [], $data);
+
+        $attribute = $this->get('pim_catalog.repository.attribute')->findOneByIdentifier('a_text');
+        $attributeStandard = [
+            'code'                   => 'a_text',
+            'type'                   => 'pim_catalog_text',
+            'group'                  => 'attributeGroupA',
+            'unique'                 => false,
+            'useable_as_grid_filter' => false,
+            'allowed_extensions'     => [],
+            'metric_family'          => null,
+            'default_metric_unit'    => null,
+            'reference_data_name'    => null,
+            'available_locales'      => [],
+            'max_characters'         => 200,
+            'validation_rule'        => null,
+            'validation_regexp'      => null,
+            'wysiwyg_enabled'        => false,
+            'number_min'             => null,
+            'number_max'             => null,
+            'decimals_allowed'       => false,
+            'negative_allowed'       => false,
+            'date_min'               => null,
+            'date_max'               => null,
+            'max_file_size'          => null,
+            'minimum_input_length'   => 0,
+            'sort_order'             => 6,
+            'localizable'            => false,
+            'scopable'               => false,
+            'labels'                 => [],
+        ];
+        $normalizer = $this->get('pim_catalog.normalizer.standard.attribute');
+
+        $response = $client->getResponse();
+        $this->assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+        $this->assertSame($attributeStandard, $normalizer->normalize($attribute));
+    }
+
     public function testResponseWhenContentIsEmpty()
     {
         $client = $this->createAuthenticatedClient();
